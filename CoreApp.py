@@ -280,6 +280,18 @@ fallback_distractors = {
         "Text embeddings", 
         "Content generation", 
         "AI creativity"
+    ],
+    "Cybersecurity": [
+        "Encryption methods", 
+        "Firewall policies", 
+        "Malware detection", 
+        "Intrusion prevention", 
+        "Risk assessment", 
+        "Security audits", 
+        "Data breaches", 
+        "Vulnerability scanning", 
+        "Security protocols", 
+        "Access control"
     ]
 }
 
@@ -577,6 +589,19 @@ question_templates = {
         "How does {keyword} help in the creative process of generative AI?",
         "What role does {keyword} play in improving generative adversarial networks?",
         "How does {keyword} enhance the diversity of generated outputs?"
+    ], 
+
+    "Cybersecurity": [
+        "What is the role of {keyword} in ensuring cybersecurity?",
+        "How does {keyword} improve the security of a network?",
+        "Why is {keyword} essential in protecting sensitive data?",
+        "What are the key challenges in implementing {keyword} in an enterprise environment?",
+        "How does {keyword} mitigate the risk of cyberattacks?",
+        "What impact does {keyword} have on security audits and compliance?",
+        "Why is {keyword} crucial for preventing data breaches?",
+        "What role does {keyword} play in network security architecture?",
+        "How is {keyword} used in vulnerability scanning and threat detection?",
+        "What are the benefits of using {keyword} in access control mechanisms?"
     ]
 }
 
@@ -592,7 +617,7 @@ def initialize_models():
     return s2v, sentence_transformer_model, device
 
 def create_folders(base_directory):
-    for folder in ["Quizzes", "Question Bank", "Weekly Assignments"]:
+    for folder in ["Quizzes", "Question Bank"]:
         os.makedirs(os.path.join(base_directory, folder), exist_ok=True)
 
 def read_pptx(file_path):
@@ -656,7 +681,7 @@ def generate_dynamic_question_templates(keyword, topic, context=None):
     else:
         return f"What is the role of {keyword} in {topic}?"
 
-def process_slide(slide_text, s2v, sentence_transformer_model, question_count, max_questions=20, topic=None):
+def process_slide(slide_text, s2v, sentence_transformer_model, question_count, max_questions=50, topic=None):
     cleaned_text = clean_text(slide_text)
     imp_keywords = get_keywords(cleaned_text)
     
@@ -683,7 +708,7 @@ def process_slide(slide_text, s2v, sentence_transformer_model, question_count, m
 
     return slide_questions
 
-def generate_questions_for_pptx(pptx_path, output_directory, s2v, sentence_transformer_model, max_questions=20, topic=None):
+def generate_questions_for_pptx(pptx_path, output_directory, s2v, sentence_transformer_model, max_questions=50, topic=None):
     all_questions = []
     question_count = [0]
     slide_texts = read_pptx(pptx_path)
@@ -726,7 +751,7 @@ def merge_all_quizzes(output_directory):
     print(f"Merged quiz saved at: {merged_file_path}")
     return merged_file_path
 
-def process_pptx_files(directory, output_directory, max_questions=20, topic=None):
+def process_pptx_files(directory, output_directory, max_questions=50, topic=None):
     s2v, sentence_transformer_model, _ = initialize_models()
 
     pptx_files = [
@@ -747,6 +772,6 @@ def process_pptx_files(directory, output_directory, max_questions=20, topic=None
     gc.collect()
 
 if __name__ == "__main__":
-    base_directory = r"E:\DPI - Project\Questiones Bank\Data Analytics\PowerBI Engineer\PowerBI Engineer (Revised)\(S1-S4) Introduction to Data Analysis"
-    topic = "PowerBI Engineer"  # Set the appropriate topic
-    process_pptx_files(base_directory, base_directory, max_questions=20, topic=topic)
+    base_directory = r"E:\DPI - Project\DEPI Training Content\Infrastructure and security Track"
+    topic = "Cybersecurity"  # Set the appropriate topic
+    process_pptx_files(base_directory, base_directory, max_questions=50, topic=topic)
